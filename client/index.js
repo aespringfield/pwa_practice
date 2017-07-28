@@ -22,4 +22,14 @@ import 'worker-loader?name=./qr-worker.js!./qr-worker.js';
 // added to get webpack to generate file via fileloader
 import 'file-loader?name=./web-app-manifest.json!./web-app-manifest.json';
 
+import 'file-loader?name=./web-app-manifest.json!./web-app-manifest.json';
+import 'worker-loader?name=./qr-worker.js!./qr-worker.js';
+import 'worker-loader?name=./sw.js!./sw.js';
+
 ReactDOM.render((<App />), document.getElementById('root'));
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(registration => {
+    console.log('REGISTERED!!!');
+  });
+}

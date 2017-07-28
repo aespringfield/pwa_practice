@@ -20,6 +20,14 @@ function startAndListen(app, port, protocol = 'https') {
   })
 }
 
+// var whitelist = ['https://localhost:3000', 'https://localhost:5000']
+var corsOptions = {
+  credentials: true,
+  origin: function (origin, callback) {
+    callback(null, true);
+  }
+}
+
 class ApiServer {
   constructor(prog) {
     this.program = prog;
@@ -31,7 +39,7 @@ class ApiServer {
     this.app = express();
     this.app.disable('x-powered-by');
     this.app.use(bodyParser.json());
-    this.app.use(cors());
+    this.app.use(cors(corsOptions));
     this.app.use('/api', router(this));
     this.app.use('/images', express.static(path.join(__dirname, '..', 'images')));
     this.app.use('/', express.static(path.join(__dirname, '..', '..', 'dist')));

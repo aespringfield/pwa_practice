@@ -83,25 +83,36 @@ export default class CartStore {
       }
      */
     
-    console.log('current items', this.items);
+     
+    // console.log('current items', this.items);
 
-    const request = new Request('https://localhost:3100/api/cart/items', {
+    // const request = new Request('https://localhost:3100/api/cart/items', {
+    //   method: 'PUT',
+    //   body: JSON.stringify({data: this.items}),
+    //   mode: 'cors',
+    //   headers: {
+    //     'content-type': 'application/json'
+    //   }
+    // });
+
+    // return fetch(request)
+    //   .then(function(response) {
+    //     console.log('heres the fetch response', response);
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
+    // // return Promise.resolve(this.items);
+    // return Promise.resolve(this.items);
+    return fetch(`${API_ENDPOINT}api/cart/items`, {
       method: 'PUT',
-      body: JSON.stringify({data: this.items}),
-      mode: 'cors',
       headers: {
         'content-type': 'application/json'
-      }
-    });
-
-    return fetch(request)
-      .then(function(response) {
-        console.log('heres the fetch response', response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    // return Promise.resolve(this.items);
+      },
+      body: JSON.stringify({ data: this.items }),
+    }).then((response) => response.json())
+      .then((jsonData) => jsonData.data)
+      .catch(error => console.error(error));
   }
 
   /**
@@ -112,7 +123,17 @@ export default class CartStore {
    * @return {Promise} 
    */
   doCheckout() {
-    throw 'CartStore#doCheckout Not yet implemented'
+    return fetch(`${API_ENDPOINT}api/order`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ data: this.items })
+    }).then(this._restoreCart)
+      .then((newItems) => {
+        this._items = newItems;
+        this._onItemsUpdated();
+      });
   }
 
   /**
