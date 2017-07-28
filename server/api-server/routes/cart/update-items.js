@@ -33,6 +33,8 @@ module.exports = function (api) {
   return function (req, res) {
     // let queryOptions = prepareQuery(req.query || {});
     let items = req.body.data;
+    console.log('hey whats our body?', req.body);
+    console.log('hey we are in items and the items are', items);
     api.db.transaction(() => {
       return CartItem.findAll().then((allCartItems) => {
         let allPlainCartItems = allCartItems.map((ci) => ci.get({ plain: true }));

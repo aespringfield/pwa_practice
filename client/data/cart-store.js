@@ -68,7 +68,40 @@ export default class CartStore {
    */
   _saveCart() {
     this._onItemsUpdated();
-    return Promise.resolve(this.items);
+
+    /* # You can set the contents of your shopping cart as follows.
+
+      PUT https://localhost:3100/api/cart/items HTTP/1.1
+      content-type: application/json
+
+      {"data":
+        [
+          {"groceryItem": { "id": 132 }, "qty": 9},
+          {"groceryItem": { "id": 134 }, "qty": 2},
+          {"groceryItem": { "id": 118 }, "qty": 1}
+        ]
+      }
+     */
+    
+    console.log('current items', this.items);
+
+    const request = new Request('https://localhost:3100/api/cart/items', {
+      method: 'PUT',
+      body: JSON.stringify({data: this.items}),
+      mode: 'cors',
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
+
+    return fetch(request)
+      .then(function(response) {
+        console.log('heres the fetch response', response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    // return Promise.resolve(this.items);
   }
 
   /**

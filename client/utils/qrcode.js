@@ -81,6 +81,11 @@ export function onQrCodeScan(imageBuffer, cartStore) {
   return new Promise((resolve/*, reject*/) => {
 
     // BEGIN MAIN THREAD SOLUTION
+    let timmy = new Worker('qr-worker.js');
+
+    timmy.postMessage(imageBuffer);
+
+
     let qr = new QrCode();
     qr.callback = function(error, rawResult) {
       if(error) {

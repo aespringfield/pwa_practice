@@ -15,6 +15,11 @@ import 'file-loader?name=./apple-touch-icon-114x114.png!./img/apple-touch-icon-1
 import 'file-loader?name=./apple-touch-icon-120x120.png!./img/apple-touch-icon-120x120.png';
 import 'file-loader?name=./apple-touch-icon-144x144.png!./img/apple-touch-icon-144x144.png';
 import 'file-loader?name=./apple-touch-icon-152x152.png!./img/apple-touch-icon-152x152.png';
-import 'file-loader?name=./apple-touch-icon-180x180.png!./img/apple-touch-icon-180x180.png';
+import 'worker-loader?name=./apple-touch-icon-180x180.png!./img/apple-touch-icon-180x180.png';
+
+import 'worker-loader?name=./qr-worker.js!./qr-worker.js';
+
+// added to get webpack to generate file via fileloader
+import 'file-loader?name=./web-app-manifest.json!./web-app-manifest.json';
 
 ReactDOM.render((<App />), document.getElementById('root'));
